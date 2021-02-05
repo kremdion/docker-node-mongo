@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  express:
+    build: .
+    restart: always
+    container_name: nodeSRV
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+    networks:
+      - nodeapp
+
+
+  mongo:
+    image: mongo
+    container_name: mongoSRV
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - nodeapp
+
+networks:
+  nodeapp:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
